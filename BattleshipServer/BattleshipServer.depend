@@ -1,0 +1,13 @@
+# depslib dependency file v1.0
+1543912173 source:c:\users\karine\documents\github\battleship\battleshipserver\main.c
+	<stdio.h>
+	<stdlib.h>
+	"server.h"
+
+1543908732 c:\users\karine\documents\github\battleship\battleshipserver\server.h
+
+1543916077 source:c:\users\karine\documents\github\battleship\battleshipserver\server.c
+	<unistd.h>
+	<stdio.h>
+	<winsock2.h>
+

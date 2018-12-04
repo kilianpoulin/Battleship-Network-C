@@ -1,10 +1,9 @@
 #include <stdio.h>
 #include "initplate.h"
-#define clear() printf("\033[H\033[J")
 
 void printGame(char b1[10][10], char b2[10][10]){
    int i,j;
-   clear();
+   system("cls");
    printf("\n Main Board \t\t\tMark Board\n");
    for(i = 0; i < 10; i++){
         if(i!=9)printf(" %d  ", i+1);
@@ -20,13 +19,14 @@ void printGame(char b1[10][10], char b2[10][10]){
 
 int main(){
 
-   
-   char MyBoard[10][10];
+
+   /*char MyBoard[10][10];
    char MarkBoard[10][10];
-   
+
    initplate(MyBoard);
    initplate(MarkBoard);
-   printGame(MyBoard, MarkBoard);
-   
+   printGame(MyBoard, MarkBoard);*/
+   tryconnect();
+
    return 0;
 }

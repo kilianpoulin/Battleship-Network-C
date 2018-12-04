@@ -1,0 +1,12 @@
+# depslib dependency file v1.0
+1543907590 source:c:\users\karine\documents\github\battleship\battleship\initplate.c
+
+1543912664 source:c:\users\karine\documents\github\battleship\battleship\game.c
+	<stdio.h>
+	"initplate.h"
+
+1543912651 c:\users\karine\documents\github\battleship\battleship\initplate.h
+
+1543912930 source:c:\users\karine\documents\github\battleship\battleship\net.c
+	<winsock2.h>
+
