@@ -1,7 +1,7 @@
 #ifndef SERVER_H_INCLUDED
 #define SERVER_H_INCLUDED
 
-#include "board.h"
+#include "../board/board.h"
 
 void server();
 void func(int sockfd);

@@ -112,7 +112,7 @@ void func(int sockfd)
 	close(sockfd);
 } 
 
-void retrieve_ip(){
+/*void retrieve_ip(){
 	char hostbuffer[256]; 
     char *IPbuffer; 
     struct hostent *host_entry; 
@@ -128,7 +128,7 @@ void retrieve_ip(){
 
    printf("\n \t Server's address = %s\n", IPbuffer);
 
-}
+}*/
   
 // Driver function 
 void server() 
@@ -136,7 +136,7 @@ void server()
     int sockfd, connfd, len; 
     struct sockaddr_in servaddr, cli;  
 
-	retrieve_ip();
+	//retrieve_ip();
   
     // socket create and verification 
     sockfd = socket(AF_INET, SOCK_STREAM, 0); 
@@ -147,12 +147,11 @@ void server()
     else
         printf("Socket successfully created..\n"); 
     bzero(&servaddr, sizeof(servaddr)); 
-  
     // assign IP, PORT 
     servaddr.sin_family = AF_INET; 
     servaddr.sin_addr.s_addr = htonl(INADDR_ANY); 
     servaddr.sin_port = htons(PORT); 
-  
+	printf("He coco, ton Ip c'est le %s\n", inet_ntoa(servaddr.sin_addr));
     // Binding newly created socket to given IP and verification 
     if ((bind(sockfd, (SA*)&servaddr, sizeof(servaddr))) != 0) { 
         printf("socket bind failed...\n"); 
@@ -160,7 +159,7 @@ void server()
     } 
     else
         printf("Socket successfully binded..\n"); 
-  
+    
     // Now server is ready to listen and verification 
     if ((listen(sockfd, 5)) != 0) { 
         printf("Listen failed...\n"); 

@@ -4,7 +4,7 @@
 /// initalizes the board manually if t == 0 or randomly if t == 1
 void initships(char board[10][10], int t){
     int i, j;
-    char tmp;
+    //char tmp;
     char *string;
     Action action[10];
     action[0].ship = 'C';

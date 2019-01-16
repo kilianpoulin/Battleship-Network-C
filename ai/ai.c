@@ -77,9 +77,9 @@ int game_on(char p[10][10]){
 /// by checking his mark board
 /// returns 0 if doesn't exist
 /// returns 1 if exists
-int check_hit_exists(Action action, char mark[10][10]){
+int check_hit_exists(Action action, char mark[10][10], int computer){
     if(mark[action.x][action.y] != '-'){
-        printf(" WARNING : You have already fired a missile on this spot, please enter another one. \n\n");
+        if (computer == 0)printf(" WARNING : You have already fired a missile on this spot, please enter another one. \n\n");
         return 1;
     }
     return 0;
@@ -93,10 +93,9 @@ Action convert_to_action(char buffer[3]){
     /// Setting X
     if(buffer[2] != '\0')
         action.x = 9;
-    else
-        action.x = convert_horizontal_coor(buffer[1]);
+    else action.x = convert_horizontal_coor(buffer[1]);
 
-	return action;
+    return action;
 
 }
 
@@ -117,7 +116,7 @@ Action player_turn(char mark[10][10], char buffer[80]){
             else
                 action.x = convert_horizontal_coor(buffer[1]); /// converts char 'number' coordinate into number
         /// check if player already hit that place
-        } while(check_hit_exists(action, mark) != 0);
+        } while(check_hit_exists(action, mark, 0) != 0);
 
 	return action;
 }
@@ -129,7 +128,7 @@ Action computer_turn(char Cpboard[10][10], char Cpmark[10][10]){
         action.x = rand()%10;
         action.y = rand()%10;
         /// check if player already hit that place
-    } while(check_hit_exists(action, Cpmark) != 0);
+    } while(check_hit_exists(action, Cpmark, 1) != 0);
 
     return action;
 }
@@ -187,10 +186,14 @@ void play_game(){
 	
 
         /// Check if there is a winner
-        if(game_on(MyBoard) == 0)
+        if(game_on(MyBoard) == 0){
             printf("\n \t Computer wins !!!! \n");
-        else if(game_on(CpBoard) == 0)
+	    winner = 0;
+	}
+        else if(game_on(CpBoard) == 0){
             printf("\n \tPlayer 1  wins !!! \n");
+	    winner = 0;
+	}
         else
             winner = 1;
 

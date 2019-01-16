@@ -15,18 +15,17 @@
 void funct(int sockfd) 
 { 
     char buff[MAX]; 
-    int n; 
-	int result;
-Action action;
+    //int n; 
+    int result;
+    Action action;
 
-char MyBoard[10][10];
+    char MyBoard[10][10];
     char MarkBoard[10][10];
-char miss = 'm';
-	char hit = 'h';
-	init_game(MyBoard, MarkBoard);
-	
-	printf("\t Waiting for your opponent...\n\n");
-	 read(sockfd, buff, sizeof(buff)); 
+    char miss = 'm';
+    char hit = 'h';
+    init_game(MyBoard, MarkBoard);
+    printf("\t Waiting for your opponent...\n\n");
+    read(sockfd, buff, sizeof(buff)); 
 	
     for (;;) { 
         bzero(buff, sizeof(buff)); 
@@ -80,7 +79,7 @@ char miss = 'm';
 	result = receive_missile(action, MyBoard);
 
 	bzero(buff, MAX);
-	n = 0; 
+	//n = 0; 
 
 
 	if(result == 1)
@@ -93,7 +92,7 @@ char miss = 'm';
 	// check if we have a winner
 	bzero(buff, MAX);
 	read(sockfd, buff, sizeof(buff)); 
-	if(buff[0] = 'w'){
+	if(buff[0] == 'w'){
 		printf("\n \t Congratulations, you won !!! \n");
 		break;
 	}
@@ -107,8 +106,8 @@ char miss = 'm';
   
 void client() 
 { 
-    int sockfd, connfd; 
-    struct sockaddr_in servaddr, cli; 
+    int sockfd; //, connfd; 
+    struct sockaddr_in servaddr;//, cli; 
 	char address[16];
   
     // socket create and varification 

@@ -15,7 +15,7 @@ int convert_vertical_coor(char y);
 int convert_horizontal_coor(char y);
 void fire_missile(int result, Action a, char mark[10][10]);
 int game_on(char p[10][10]);
-int check_hit_exists(Action action, char mark[10][10]);
+int check_hit_exists(Action action, char mark[10][10], int computer);
 void play_game();
 void init_game();
 Action player_turn(char mark[10][10], char buffer[80]);

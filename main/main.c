@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "server.h"
-#include "client.h"
-#include "ai.h"
-#include "ship.h"
-#include "board.h"
+#include "../networking/server.h"
+#include "../networking/client.h"
+#include "../ai/ai.h"
+#include "../ship/ship.h"
+#include "../board/board.h"
 #include <unistd.h>
 #include <time.h>
 

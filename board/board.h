@@ -1,9 +1,9 @@
 #ifndef BOARD_H_INCLUDED
 #define BOARD_H_INCLUDED
 
-#include "ai.h"
+#include "../ai/ai.h"
 #include <stdio.h>
-#include "ship.h"
+#include "../ship/ship.h"
 void initplate(char tab[10][10]);
 void printBoard(char b1[10][10]);
 void printGame(char b1[10][10], char b2[10][10]);
