@@ -6,6 +6,8 @@
 #include <sys/socket.h> 
 #include <sys/types.h> 
 #include <unistd.h>
+#include "server.h"
+#include <arpa/inet.h>
 #define MAX 80 
 #define PORT 8080 
 #define SA struct sockaddr 
@@ -15,36 +17,126 @@ void func(int sockfd)
 { 
     char buff[MAX]; 
     int n; 
+	Action action;
+	int result = 0;
+
+	char MyBoard[10][10];
+    char MarkBoard[10][10];
+
+	char miss = 'm';
+	char hit = 'h';
+	init_game(MyBoard, MarkBoard);
+  
+	 write(sockfd, buff, sizeof(buff));  
     // infinite loop for chat 
     for (;;) { 
         bzero(buff, MAX); 
-  
+
+	// ----- OPPONENT'S TURN
+	
+
         // read the message from client and copy it in buffer 
         read(sockfd, buff, sizeof(buff)); 
-        // print buffer which contains the client contents 
-        printf("From client: %s\t To client : ", buff); 
-        bzero(buff, MAX); 
-        n = 0; 
-        // copy server message in the buffer 
-        while ((buff[n++] = getchar()) != '\n') 
-            ; 
-  
-        // and send that buffer to client 
+	
+	printf("\t Enemy Move : %s\n", buff);
+
+	action = convert_to_action(buff);
+
+	// updates player's board
+	result = receive_missile(action, MyBoard);
+
+	bzero(buff, MAX);
+	n = 0; 
+
+
+	if(result == 1)
+		buff[0] = hit;
+	else 
+		buff[0] = miss;
+		
+	write(sockfd, buff, sizeof(buff)); 
+
+	// check if we have a winner
+	bzero(buff, MAX);
+	read(sockfd, buff, sizeof(buff)); 
+	if(buff[0] = 'w'){
+		printf("\n \t Congratulations, you won !!! \n");
+		break;
+	}
+	
+	
+	// ------ PLAYER'S TURN
+
+	printGame(MyBoard, MarkBoard);
+
+        action = player_turn(MarkBoard, buff);
         write(sockfd, buff, sizeof(buff)); 
-  
+	
+	
+	// receives result of missile
+	
+        bzero(buff, sizeof(buff)); 
+        read(sockfd, buff, sizeof(buff)); 
+
+	if(buff[0] == 'h')
+		result = 1;
+	else 
+		result = 0;
+
+	// updates mark board
+	fire_missile(result, action, MarkBoard);
+	
+	printGame(MyBoard, MarkBoard);
+
+
+	/// checkinf if we have a loser 
+	bzero(buff, MAX);
+	if(game_on(MyBoard) == 0){
+		printf("\n \t Sorry, you are the unlucky loser\n");
+		buff[0] = 'w';
+	}
+	else
+		buff[0] = 'n';
+
+	write(sockfd, buff, sizeof(buff));
+	if(buff['0'] == 'w')
+		break;
+	
+
         // if msg contains "Exit" then server exit and chat ended. 
         if (strncmp("exit", buff, 4) == 0) { 
             printf("Server Exit...\n"); 
             break; 
         } 
     } 
+	close(sockfd);
 } 
+
+void retrieve_ip(){
+	char hostbuffer[256]; 
+    char *IPbuffer; 
+    struct hostent *host_entry; 
+    int hostname; 
+// To retrieve hostname 
+    hostname = gethostname(hostbuffer, sizeof(hostbuffer)); 
+// To retrieve host information 
+    host_entry = gethostbyname(hostbuffer); 
+    // To convert an Internet network 
+    // address into ASCII string 
+    IPbuffer = inet_ntoa(*((struct in_addr*) 
+                           host_entry->h_addr_list[0])); 
+
+   printf("\n \t Server's address = %s\n", IPbuffer);
+
+}
   
 // Driver function 
-int main() 
+void server() 
 { 
     int sockfd, connfd, len; 
-    struct sockaddr_in servaddr, cli; 
+    struct sockaddr_in servaddr, cli;  
+
+	retrieve_ip();
   
     // socket create and verification 
     sockfd = socket(AF_INET, SOCK_STREAM, 0); 
@@ -86,10 +178,14 @@ int main()
     } 
     else
         printf("server acccept the client...\n"); 
+
+    
   
     // Function for chatting between client and server 
     func(connfd); 
-  
+
+    
+  	
     // After chatting close the socket 
     close(sockfd); 
 } 

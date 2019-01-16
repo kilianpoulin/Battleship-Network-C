@@ -46,9 +46,9 @@ void initships(char board[10][10], int t){
                 if(j != 0)
                     printf("Error - Space already used or outside the board");
 
-                printf(string);
+                printf("%s", string);
                 printf("Coordinate of starting point (ex : A1) : ");
-                scanf("%s", &choice);
+                scanf("%s", choice);
 
                 /// Setting X
                 action[i].x = convert_vertical_coor(choice[0]); /// converts letter coordinate into number

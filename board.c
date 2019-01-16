@@ -80,3 +80,20 @@ void initplate(char tab[10][10]){
     for(i = 0; i < 10; i++)
 	for(j = 0; j < 10; j++)tab[i][j] = '-';
 }
+
+void init_game(char MyBoard[10][10], char MarkBoard[10][10])
+{
+	initplate(MyBoard);
+    initplate(MarkBoard);
+    printGame(MyBoard, MarkBoard);
+    int choice = 0;
+    printf("Init board\n");
+    printf("[0] Manually | [1] Randomly ==> ");
+    scanf("%d", &choice);
+    if(choice == 0)
+        initships(MyBoard, 0);
+    else
+        initships(MyBoard, 1);
+
+    printGame(MyBoard, MarkBoard);
+}

@@ -13,13 +13,14 @@ struct Action
 
 int convert_vertical_coor(char y);
 int convert_horizontal_coor(char y);
-void fire_missile(Action a, char board[10][10], char mark[10][10]);
+void fire_missile(int result, Action a, char mark[10][10]);
 int game_on(char p[10][10]);
 int check_hit_exists(Action action, char mark[10][10]);
-void play_game(char board[10][10], char Cpboard[10][10], char mark[10][10], char Cpmark[10][10]);
+void play_game();
 void init_game();
-Action player_turn(char board[10][10], char mark[10][10]);
+Action player_turn(char mark[10][10], char buffer[80]);
 Action computer_turn(char Cpboard[10][10], char Cpmark[10][10]);
-
+int receive_missile(Action a, char board[10][10]);
+Action convert_to_action(char buffer[3]);
 
 #endif // AI_H_INCLUDED
