@@ -84,8 +84,6 @@ void funct(int sockfd)
 	result = receive_missile(action, MyBoard);
 
 	bzero(buff, MAX);
-	//n = 0; 
-
 
 	if(result == 1)
 		buff[0] = hit; 

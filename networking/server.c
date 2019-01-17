@@ -67,6 +67,7 @@ void func(int sockfd)
 	
 	// ------ PLAYER'S TURN
 
+	bzero(buff, MAX);
 	printGame(MyBoard, MarkBoard);
 
         action = player_turn(MarkBoard, buff);
@@ -134,8 +135,6 @@ void server()
     servaddr.sin_family = AF_INET; 
     servaddr.sin_addr.s_addr = htonl(INADDR_ANY); 
     servaddr.sin_port = htons(PORT); 
-
-	printf("Your IP is %s\n", inet_ntoa(servaddr.sin_addr));
 
     // Binding newly created socket to given IP and verification 
     if ((bind(sockfd, (SA*)&servaddr, sizeof(servaddr))) != 0) { 
