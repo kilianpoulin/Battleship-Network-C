@@ -19,6 +19,7 @@ int convert_horizontal_coor(char y){
         return -1; /// error
 }
 
+
 /// METHOD : receive missile
 /// updateS board of opponent
 // returns 1 if hit
@@ -29,14 +30,9 @@ int receive_missile(Action a, char board[10][10]){
     if(board[a.x][a.y] != '-' && board[a.x][a.y] > 64 && board[a.x][a.y] < 91){
         board[a.x][a.y] = board[a.x][a.y] + 32;
 	return 1;
-	
-        //mark[a.x][a.y] = 'X'; /// hit
-        //printf(" RESULT : Congratulations, it's a hit !\n\n");
     }
     else {
 	return 0;
-        //mark[a.x][a.y] = 'x'; /// missed
-        //printf(" RESULT : Sorry, you missed !\n\n");
     }
 }
 
@@ -133,6 +129,24 @@ Action computer_turn(char Cpboard[10][10], char Cpmark[10][10]){
     return action;
 }
 
+// METHOD : count_remaining
+// count the remaining cases
+int count_remaining(char b[10][10], int option){
+	int i, j;
+	int count = 30;
+	for(i = 0; i < 10; i++){
+		for(j = 0; j < 10; j++){
+			if(option == 1 && b[i][j] == 'x')
+				count--;
+			else if(option == 2 && b[i][j] > 96 && b[i][j] < 123)
+				count--;
+		}
+	}
+
+	return count;
+
+}
+
 /// METHOD : play game
 /// loop continues as long as game_on returns 0
 void play_game(){
@@ -175,6 +189,8 @@ void play_game(){
         fire_missile(result, action, MarkBoard);
 
         printGame(MyBoard, MarkBoard);
+
+	printf("\n  Number of hits left to win : %d\n", count_remaining(MarkBoard, 1));
         printf("\n\n");
 
         /// Computer's turn
@@ -183,6 +199,8 @@ void play_game(){
 
 	result = receive_missile(action, MyBoard);
         fire_missile(result, action, Cpmark);
+
+	printf("\n  Number of hits remaining for your opponent to win : %d\n", count_remaining(Cpmark, 1));
 	
 
         /// Check if there is a winner

@@ -59,7 +59,7 @@ void func(int sockfd)
 	// check if we have a winner
 	bzero(buff, MAX);
 	read(sockfd, buff, sizeof(buff)); 
-	if(buff[0] = 'w'){
+	if(buff[0] == 'w'){
 		printf("\n \t Congratulations, you won !!! \n");
 		break;
 	}
@@ -88,8 +88,11 @@ void func(int sockfd)
 	
 	printGame(MyBoard, MarkBoard);
 
+	printf("\n  Number of hits left to win : %d\n", count_remaining(MarkBoard, 1));
+	printf("\n  Number of hits remaining for your opponent to win : %d\n", count_remaining(MyBoard, 2));
 
-	/// checkinf if we have a loser 
+
+	/// checking if we have a loser 
 	bzero(buff, MAX);
 	if(game_on(MyBoard) == 0){
 		printf("\n \t Sorry, you are the unlucky loser\n");
@@ -101,7 +104,7 @@ void func(int sockfd)
 	write(sockfd, buff, sizeof(buff));
 	if(buff['0'] == 'w')
 		break;
-	
+	bzero(buff, MAX);
 
         // if msg contains "Exit" then server exit and chat ended. 
         if (strncmp("exit", buff, 4) == 0) { 
@@ -112,32 +115,12 @@ void func(int sockfd)
 	close(sockfd);
 } 
 
-/*void retrieve_ip(){
-	char hostbuffer[256]; 
-    char *IPbuffer; 
-    struct hostent *host_entry; 
-    int hostname; 
-// To retrieve hostname 
-    hostname = gethostname(hostbuffer, sizeof(hostbuffer)); 
-// To retrieve host information 
-    host_entry = gethostbyname(hostbuffer); 
-    // To convert an Internet network 
-    // address into ASCII string 
-    IPbuffer = inet_ntoa(*((struct in_addr*) 
-                           host_entry->h_addr_list[0])); 
 
-   printf("\n \t Server's address = %s\n", IPbuffer);
-
-}*/
-  
-// Driver function 
 void server() 
 { 
     int sockfd, connfd, len; 
     struct sockaddr_in servaddr, cli;  
 
-	//retrieve_ip();
-  
     // socket create and verification 
     sockfd = socket(AF_INET, SOCK_STREAM, 0); 
     if (sockfd == -1) { 
@@ -151,7 +134,9 @@ void server()
     servaddr.sin_family = AF_INET; 
     servaddr.sin_addr.s_addr = htonl(INADDR_ANY); 
     servaddr.sin_port = htons(PORT); 
-	printf("He coco, ton Ip c'est le %s\n", inet_ntoa(servaddr.sin_addr));
+
+	printf("Your IP is %s\n", inet_ntoa(servaddr.sin_addr));
+
     // Binding newly created socket to given IP and verification 
     if ((bind(sockfd, (SA*)&servaddr, sizeof(servaddr))) != 0) { 
         printf("socket bind failed...\n"); 

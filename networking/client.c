@@ -51,6 +51,8 @@ void funct(int sockfd)
 	fire_missile(result, action, MarkBoard);
 	
 	printGame(MyBoard, MarkBoard);
+	printf("\n  Number of hits left to win : %d\n", count_remaining(MarkBoard, 1));
+	printf("\n  Number of hits remaining for your opponent to win : %d\n", count_remaining(MyBoard, 2));
 
 	/// checkinf if we have a loser 
 	bzero(buff, MAX);
@@ -62,9 +64,12 @@ void funct(int sockfd)
 		buff[0] = 'n';
 
 	write(sockfd, buff, sizeof(buff));
-	if(buff['0'] == 'w')
+	if(buff[0] == 'w')
 		break;
 	
+	bzero(buff, MAX);
+
+
 	// ----- OPPONENT'S TURN
 	
 
